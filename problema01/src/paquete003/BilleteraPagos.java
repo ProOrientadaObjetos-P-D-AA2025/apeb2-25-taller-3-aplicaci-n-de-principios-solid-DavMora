@@ -4,35 +4,38 @@
  */
 package paquete003;
 
-import paquete001.Persona;
-import paquete004.PagoAguaPotable;
-import paquete004.PagoLuzElectrica;
-import paquete004.PagoPredial;
-import paquete004.PagoTelefonoConvencional;
+import java.util.ArrayList;
+import paquete004.Pago;
 
-/**
- *
- * @author reroes
- */
 public class BilleteraPagos {
-    public Persona persona;
-    public double gastoPagos;
-    public String mes;
-    public PagoAguaPotable aguaCasa;
-    public PagoAguaPotable aguaComercio;
-    public PagoLuzElectrica luzCasa;
-    public PagoLuzElectrica luzComercio;
-    public PagoPredial casa1;
-    public PagoPredial casa2;
-    public PagoTelefonoConvencional telefonoCasa;
-    public PagoTelefonoConvencional telefonoFinca;
-    
-    public String toString(){
-        /*
-            Se debe presentar el reporte que incluya
-            información correspondiente oportuna
-        */
-        return "Presentar Reporte";
+    private String mes;
+    private ArrayList<Pago> listaPagos = new ArrayList<>();
+
+    public void setMes(String mes) {
+        this.mes = mes;
     }
-    
+
+    public void agregarPago(Pago p) {
+        p.calcularPago();
+        listaPagos.add(p);
+    }
+
+    public double calcularGastoTotal() {
+        double total = 0;
+        for (Pago p : listaPagos) {
+            total += p.getValorPago();
+        }
+        return total;
+    }
+
+    public String toString() {
+        String resultado = "\n=== BILLETERA DE PAGOS ===\n";
+        resultado += "Mes: " + mes + "\n";
+        resultado += "Pagos:\n";
+        for (Pago p : listaPagos) {
+            resultado += "- " + p.toString() + "\n";
+        }
+        resultado += "Total Pagado: " + String.format("%.2f", calcularGastoTotal());
+        return resultado;
+    }
 }
